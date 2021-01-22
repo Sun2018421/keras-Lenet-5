@@ -26,7 +26,7 @@ model = Sequential()
 # 选取6个特征卷积核，大小为5∗5(不包含偏置),得到66个特征图，每个特征图的大小为32−5+1=2832−5+1=28，
 # 也就是神经元的个数由10241024减小到了28∗28=78428∗28=784。
 # 输入层与C1层之间的参数:6∗(5∗5+1)
-model.add(Conv2D(6, kernel_size=(5, 5), activation='relu', input_shape=(28, 28, 1)))
+model.add(Conv2D(6, kernel_size=(5, 5), padding = 'same',activation='relu', input_shape=(28, 28, 1)))
 
 # 这一层的输入为第一层的输出，是一个28*28*6的节点矩阵。
 # 本层采用的过滤器大小为2*2，长和宽的步长均为2，所以本层的输出矩阵大小为14*14*6。
@@ -52,7 +52,7 @@ model.add(Dense(84, activation='relu'))
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss=keras.metrics.categorical_crossentropy, optimizer=keras.optimizers.Adam(), metrics=['accuracy'])
-
+model.summary()
 model.fit(x_train, y_train, batch_size=128, epochs=20, verbose=1, validation_data=(x_test, y_test))
 score = model.evaluate(x_test, y_test)
 model.save('lenet-5(new).h5')
